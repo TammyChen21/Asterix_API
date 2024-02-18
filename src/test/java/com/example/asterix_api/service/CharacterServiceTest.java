@@ -65,4 +65,41 @@ class CharacterServiceTest {
         verify(idMock).generateUUID();
         verify(currywurst).findById("1");
     }
+
+    @Test
+    void getCharacterById(){
+        //GIVEN
+        Character expected = new Character("1","Asterix", 35, "Warrior");
+        when(currywurst.findById("1")).thenReturn(java.util.Optional.of(expected));
+        //WHEN
+        Character actual = service.getCharacterById("1");
+        //THEN
+        assertEquals(expected, actual);
+        verify(currywurst).findById("1");
+    }
+    @Test
+    void deleteCharacterById(){
+        //GIVEN
+        Character expected = new Character("1","Asterix", 35, "Warrior");
+        when(currywurst.findById("1")).thenReturn(java.util.Optional.of(expected));
+        //WHEN
+        Character actual = service.deleteCharacterById("1");
+        //THEN
+        assertEquals(expected, actual);
+        verify(currywurst).deleteById("1");
+    }
+    @Test
+    void updateCharacter(){
+        //GIVEN
+        CharacterDto characterDto = new CharacterDto("Asterix", 35, "Warrior");
+        Character expected = new Character("1","Asterix", 35, "Warrior");
+        when(currywurst.existsById("1")).thenReturn(true);
+        when(currywurst.save(expected)).thenReturn(expected);
+        //WHEN
+        Character actual = service.updateCharacter(characterDto, "1");
+        //THEN
+        assertEquals(expected, actual);
+        verify(currywurst).existsById("1");
+        verify(currywurst).save(expected);
+    }
 }
