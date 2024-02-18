@@ -102,4 +102,18 @@ class CharacterServiceTest {
         verify(currywurst).existsById("1");
         verify(currywurst).save(expected);
     }
+    @Test
+    void saveIdservice(){
+        //GIVEN
+        CharacterDto characterDto = new CharacterDto("Asterix", 35, "Warrior");
+        Character expected = new Character("1","Asterix", 35, "Warrior");
+        when(currywurst.existsById("1")).thenReturn(true);
+        when(currywurst.save(expected)).thenReturn(expected);
+        //WHEN
+        Character actual = service.updateCharacter(characterDto, "1");
+        //THEN
+        assertEquals(expected, actual);
+        verify(currywurst).existsById("1");
+        verify(currywurst).save(expected);
+    }
 }
